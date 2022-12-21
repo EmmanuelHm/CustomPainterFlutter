@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:custom_painter/src/pages/header_page.dart';
+// import 'package:custom_painter/src/pages/header_page.dart';
+// import 'package:custom_painter/src/pages/animaciones_page.dart';
+// import 'package:custom_painter/src/retos/cuadrado_animado_page.dart';
+// import 'package:custom_painter/src/labs/circular_progress_page.dart';
+import 'package:custom_painter/src/pages/graficas_circulares_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,7 +16,10 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Diseños App',
-      home: HeadersPage(),
+      // home: HeadersPage(),
+      // home: AnimacionesPage(),
+      // home: CuadradoAnimadoPage(),
+      home: GraficasCircularesPage(),
     );
   }
 }
