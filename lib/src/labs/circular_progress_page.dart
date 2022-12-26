@@ -24,7 +24,7 @@ class _CircularProgressPageState extends State<CircularProgressPage>
     );
 
     controller.addListener(() {
-      print('Valor controller: ${controller.value}');
+      // print('Valor controller: ${controller.value}');
       setState(() {
         porcentaje = lerpDouble(porcentaje, nuevoPorcentaje, controller.value)!;
       });
