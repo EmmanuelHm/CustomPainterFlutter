@@ -1,0 +1,150 @@
+// ignore_for_file: avoid_print
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class PinterestButton {
+  final Function() onPressed;
+  final IconData icon;
+
+  PinterestButton({required this.onPressed, required this.icon});
+}
+
+class PinterestMenu extends StatelessWidget {
+  final bool mostrar;
+  final Color backgroundColor;
+  final Color activeColor;
+  final Color inactiveColor;
+  final List<PinterestButton> items;
+
+  // ignore: use_key_in_widget_constructors
+  const PinterestMenu({
+    this.mostrar = true,
+    this.backgroundColor = Colors.white,
+    this.activeColor = Colors.black,
+    this.inactiveColor = Colors.blueGrey,
+    required this.items,
+  });
+
+  // Attributes
+  // final List<PinterestButton> items = [
+  //   PinterestButton(
+  //       icon: Icons.pie_chart, onPressed: () => print('Icon pie_chart')),
+  //   PinterestButton(icon: Icons.search, onPressed: () => print('Icon search')),
+  //   PinterestButton(
+  //       icon: Icons.notifications,
+  //       onPressed: () => print('Icon notifications')),
+  //   PinterestButton(
+  //       icon: Icons.supervised_user_circle,
+  //       onPressed: () => print('Icon supervised_user_circle')),
+  // ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => _MenuModel(),
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 250),
+        opacity: (mostrar) ? 1 : 0,
+        child: Builder(
+          builder: (BuildContext context) {
+            Provider.of<_MenuModel>(context).backgroundColor = backgroundColor;
+            Provider.of<_MenuModel>(context).activeColor = activeColor;
+            Provider.of<_MenuModel>(context).inactiveColor = inactiveColor;
+
+            return _PinterestMenuBackground(
+              child: _MenuItems(items),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _PinterestMenuBackground extends StatelessWidget {
+  final Widget child;
+  const _PinterestMenuBackground({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    Color backgroundColor = Provider.of<_MenuModel>(context).backgroundColor;
+
+    return Container(
+      width: 250,
+      height: 60,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(100)),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            color: Colors.black38,
+            blurRadius: 10,
+            spreadRadius: -5,
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+class _MenuItems extends StatelessWidget {
+  final List<PinterestButton> menuItems;
+  // ignore: prefer_const_constructors_in_immutables
+  _MenuItems(this.menuItems);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(
+          menuItems.length, (i) => _PinterestMenuButtom(i, menuItems[i])),
+    );
+  }
+}
+
+class _PinterestMenuButtom extends StatelessWidget {
+  final int index;
+  final PinterestButton item;
+  // ignore: prefer_const_constructors_in_immutables
+  _PinterestMenuButtom(this.index, this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    final itemSeleccionado = Provider.of<_MenuModel>(context).itemSeleccionado;
+
+    final menuModel = Provider.of<_MenuModel>(context);
+
+    return GestureDetector(
+      onTap: () {
+        Provider.of<_MenuModel>(context, listen: false).itemSeleccionado =
+            index;
+        item.onPressed();
+      },
+      behavior: HitTestBehavior.translucent,
+      child: SizedBox(
+        child: Icon(
+          item.icon,
+          size: (itemSeleccionado == index) ? 35 : 25,
+          color: (itemSeleccionado == index)
+              ? menuModel.activeColor
+              : menuModel.inactiveColor,
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuModel with ChangeNotifier {
+  int _itemSeleccionado = 0;
+  Color backgroundColor = Colors.white;
+  Color activeColor = Colors.black;
+  Color inactiveColor = Colors.blueGrey;
+
+  int get itemSeleccionado => _itemSeleccionado;
+  set itemSeleccionado(int index) {
+    _itemSeleccionado = index;
+    notifyListeners();
+  }
+}
