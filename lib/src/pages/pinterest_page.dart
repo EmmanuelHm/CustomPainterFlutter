@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:custom_painter/src/theme/theme.dart';
 import 'package:custom_painter/src/widgets/pinterest_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -28,19 +29,28 @@ class PinterestPage extends StatelessWidget {
 class _PinterestMenuLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final widthPantalla = MediaQuery.of(context).size.width;
+    double widthPantalla = MediaQuery.of(context).size.width;
 
     final mostrar = Provider.of<_MenuModel>(context).mostrar;
+
+    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
+    final accentColor = appTheme!.accentColor;
+
+    if (widthPantalla > 500) {
+      widthPantalla = widthPantalla - 250;
+    }
 
     return Positioned(
       bottom: 30,
       child: SizedBox(
-          width: widthPantalla,
-          child: Align(
-            child: PinterestMenu(
+        width: widthPantalla,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PinterestMenu(
               mostrar: mostrar,
-              // backgroundColor: Colors.red,
-              // activeColor: Colors.red,
+              backgroundColor: appTheme.scaffoldBackgroundColor,
+              activeColor: accentColor,
               // inactiveColor: Colors.red,
               items: [
                 PinterestButton(
@@ -61,7 +71,9 @@ class _PinterestMenuLocation extends StatelessWidget {
                 ),
               ],
             ),
-          )),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -105,13 +117,21 @@ class _PinterestGridState extends State<PinterestGrid> {
 
   @override
   Widget build(BuildContext context) {
+    int count;
+
+    if (MediaQuery.of(context).size.width > 400) {
+      count = 3;
+    } else {
+      count = 2;
+    }
+
     return StaggeredGridView.countBuilder(
       controller: controller,
-      crossAxisCount: 4,
+      crossAxisCount: count,
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => _PinterestItem(index),
       staggeredTileBuilder: (int index) =>
-          StaggeredTile.count(2, index.isEven ? 2 : 3),
+          StaggeredTile.count(1, index.isEven ? 2 : 3),
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
     );

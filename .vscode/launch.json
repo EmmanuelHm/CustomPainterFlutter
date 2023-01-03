@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "designs_flutter",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "designs_flutter (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "designs_flutter (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "AcerIconia7",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "51241963869"
+        },
+        {
+            "name": "SamsungA50",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "R58M90CHN6Y"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Disp Fisicos",
+            "configurations": ["AcerIconia7", "SamsungA50"]
+        }
+    ]
+}

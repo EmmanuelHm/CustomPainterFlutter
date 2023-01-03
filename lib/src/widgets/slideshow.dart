@@ -169,6 +169,7 @@ class _SlidesState extends State<_Slides> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: PageView(
+        physics: const BouncingScrollPhysics(),
         controller: pageViewController,
         // children: [
         //   _Slide('assets/svgs/slide-1.svg'),
